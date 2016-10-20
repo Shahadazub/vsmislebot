@@ -1,0 +1,11 @@
+<gamers>
+
+  <gamer chat_id="278645739">
+    <chat_id>278645740</chat_id>
+    <whant_to_play>YES</whant_to_play>
+  </gamer>
+  <gamer chat_id="278645741">
+    <chat_id>278645740</chat_id>
+    <whant_to_play>YES</whant_to_play>
+  </gamer>
+<gamer><whant_to_play/></gamer><gamer chat_id="1111"><whant_to_play>NO</whant_to_play></gamer><gamer chat_id="278645740"><whant_to_play>NO</whant_to_play></gamer><gamer chat_id="250524157"><whant_to_play>NO</whant_to_play></gamer></gamers>
