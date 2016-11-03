@@ -1,0 +1,10 @@
+<riddles>
+  <riddle id="1">
+    <name>Палки и Галки</name>
+    <picture>NO</picture>
+    <text>Летели галки, сели на палки. Сядут по одной — галка лишняя, сядут по две — палка лишняя. Сколько было галок?</text>
+    <answer>4</answer>
+    <answer>четыре</answer>
+    <solved>0</solved>
+  </riddle>
+</riddles>
