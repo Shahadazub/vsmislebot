@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from lxml import etree
 
 list_of_riddle_elements = ['name', 'picture', 'text', 'answer', 'solved']
