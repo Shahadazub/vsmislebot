@@ -1,4 +1,7 @@
-#-*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# vim:fileencoding=utf-8
+
 import config
 
 
@@ -91,36 +94,40 @@ def answer_to_user(message): #function that send answer
         sleep(3)
         bot.send_message(message.chat.id,"bitch")
     if param == 'null':
-        if message.text[:18] == 'В смысле, в смысле':
+        if str(message.text[:18]) == 'В смысле, в смысле':
             message_to_send = wow_message
             bot.send_message(message.chat.id, message_to_send)
         else:
-            message_to_send = "В смысле, " + message.text + "?"
+            message_to_send = "В смысле, " + str(message.text) + "?"
             bot.send_message(message.chat.id, message_to_send)
             print(message.chat.id)
     else:
-        riddle_id = get_corrected_riddle_id(str(message.chat.id))
+        riddle_id = xml_handler.get_corrected_riddle_id(str(message.chat.id))
         print('adding printed text to riddle')
+
         if param == 'name':
+            print('param = ' + param + '; script to add name started')
             xml_handler.insert_param_to_riddle(str(riddle_id), param, message.text)
+            #print(str(message.text) + ' added as ' + str(param))
             xml_handler.set_gamer_mode(str(message.chat.id),'text', str(riddle_id))
+            print ('gamer mode set to text')
             bot.send_message(str(message.chat.id), 'Какой текст задачи?')
         elif  param == 'text':
             xml_handler.insert_param_to_riddle(str(riddle_id), param, message.text)
-            xml_handler.set_gamer_mode(str(message.chat.id),'answer')
+            xml_handler.set_gamer_mode(str(message.chat.id),'answer', str(riddle_id))
             bot.send_message(str(message.chat.id), 'Какой правильный ответ?')
         elif param == 'answer':
             xml_handler.insert_param_to_riddle(str(riddle_id), param, message.text)
-            xml_handler.set_gamer_mode(str(message.chat.id),'another answer')
-            bot.send_message(str(message.chat.id), 'Еще один ответ?')
+            xml_handler.set_gamer_mode(str(message.chat.id),'another answer', str(riddle_id))
+            bot.send_message(str(message.chat.id), 'Еще один ответ? Да?')
         elif param == 'another answer':
             if message.text == 'Да':
-                xml_handler.set_gamer_mode(str(message.chat.id),'answer')
+                xml_handler.set_gamer_mode(str(message.chat.id),'answer', str(riddle_id))
                 bot.send_message(message.chat.id, 'Какой правильный ответ?')
             else:
-                xml_handler.set_gamer_mode(str(message.chat.id),'null')
+                xml_handler.set_gamer_mode(str(message.chat.id),'null', str(riddle_id))
                 bot.send_message(message.chat.id, 'Новая загадка сохранена')
-                #show_riddle(riddle_id)
+                xml_handler.show_riddle(riddle_id)
                 
 
 if __name__ == '__main__':

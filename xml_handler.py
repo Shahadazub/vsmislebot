@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+#vim:fileencoding=utf-8
 from lxml import etree
 
 list_of_riddle_elements = ['name', 'picture', 'text', 'answer', 'solved']
@@ -27,7 +29,7 @@ def create_new_riddle(riddle_id):
         subelement.text = '0'
         print(subelement_name + ' created')
     riddles.append(riddle)
-    print("riddle addded")
+    print("riddle subelement addded")
     finaltext = riddles.getroottree()
     print("created final tree")
     finaltext.write('riddles.xml',encoding="utf-8",pretty_print=True)
@@ -47,15 +49,26 @@ def gamer_mode(chat_id):
     return gamer_mode.text
 
 def set_gamer_mode(chat_id, mode_text, riddle_id):
+    print ('set_gamer_mode started')
     root = etree.parse('gamers.xml')
-    print('File parsed')
+    print('gamers.xml  parsed')
     string_to_find = "gamer[@chat_id='" + chat_id + "']"
-    print('string_to_find created')
+    print('string_to_find created as ' + string_to_find)
     gamer = root.find(string_to_find)
+    print('needed gamer found')
     gamer_mode = gamer.find("mode")
+    print ('gamer_mode subelement found')
     gamer_mode.text = mode_text
+    print('gamer_mode got text: ' + mode_text)
     riddle_number = gamer.find("riddle_id")
+    print('riddle_id subelement found')
     riddle_number.text = riddle_id
+    print('riddle_id get text: ' + riddle_id)
+    #finaltext = root.getroottree()
+    #print('updated element tree created')
+    #finaltext.write('gamers.xml',pretty_print=True)
+    root.write('gamers.xml',pretty_print=True)
+    print('updated gamers.xml wrote')
     
  
 def insert_param_to_riddle(riddle_id, param, text):
@@ -64,6 +77,9 @@ def insert_param_to_riddle(riddle_id, param, text):
     string_to_find = "riddle[@id='" + str(riddle_id) + "']"
     riddle = root.find(string_to_find)
     riddle.find(param).text = text 
+    #finaltext = root.getroottree()
+    #finaltext.write('riddles.xml',pretty_print=True)
+    root.write('riddles.xml',pretty_print=True)
 
 
 def riddle_id_is_free(riddle_id):
