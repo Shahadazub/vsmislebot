@@ -27,6 +27,14 @@ def get_new_riddle_id():
         print('riddle id already exist')
         get_new_riddle_id()
 
+def show_riddle(riddle_id, gamer_id):
+    print ('recieving riddle elements')
+    riddle_name = xml_handler.get_riddle_element_text(riddle_id, 'name')
+    print('riddle name recieved as: ' + riddle_name)
+    #bot.send_message(gamer_id,riddle_name) 
+    riddle_text = xml_handler.get_riddle_element_text(riddle_id, 'text')
+    print('riddle text recieved as: ' + riddle_text)
+    bot.send_message(gamer_id,riddle_name + '\n' + riddle_text) 
     
 
 
@@ -127,7 +135,8 @@ def answer_to_user(message): #function that send answer
             else:
                 xml_handler.set_gamer_mode(str(message.chat.id),'null', str(riddle_id))
                 bot.send_message(message.chat.id, 'Новая загадка сохранена')
-                xml_handler.show_riddle(riddle_id)
+                show_riddle(riddle_id, message.chat.id)
+                xml_handler.add_riddle_to_all_gamers(riddle_id)
                 
 
 if __name__ == '__main__':

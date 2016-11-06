@@ -1,12 +1,46 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 #vim:fileencoding=utf-8
+
 from lxml import etree
 
 list_of_riddle_elements = ['name', 'picture', 'text', 'answer', 'solved']
+show_riddle_elements = ['name', 'picture', 'text']
 
+def add_riddle_to_all_gamers(riddle_id):
+    print('-----------------')
+    print('script to add riddle to all gamers started')
+    root = etree.parse('gamers.xml')
+    print("gamers.xml parsed")
+    gamers = root.getroot()
+    print("root element for gamers recieved")
+    for gamer in gamers.getchildren():
+        print('---')
+        print('got a gamer')
+        riddle_element = etree.SubElement(gamer, 'riddle')
+        print('created new riddle element')
+        riddle_element.set('id', riddle_id)
+        print('set riddle id for this gamer')
+        riddle_element.text = 'unsolved'
+        print('set this riddle text as unresolved')
+    root.write('gamers.xml',pretty_print=True)
+    print("file saved")
+    
+
+
+def get_riddle_element_text(riddle_id, element_name): #riddle_id is string
+    print('-----------------')
+    print('script to get riddle texts started')
+    root = etree.parse('riddles.xml')
+    print('riddles.xml parsed')
+    string_to_find = "riddle[@id='" + str(riddle_id) + "']"
+    print ('created string to find: ' + string_to_find)
+    riddle = root.find(string_to_find)
+    print('riddle we need is found')
+    return riddle.find(element_name).text
 
 def get_corrected_riddle_id(chat_id):
+    print('----------------')
     root = etree.parse('gamers.xml')
     print('File parsed')
     string_to_find = "gamer[@chat_id='" + chat_id + "']"
@@ -17,6 +51,7 @@ def get_corrected_riddle_id(chat_id):
 
 
 def create_new_riddle(riddle_id):
+    print('----------------')
     doc = etree.parse('riddles.xml')
     print("riddles.xml parsed")
     riddles = doc.getroot()
@@ -37,6 +72,7 @@ def create_new_riddle(riddle_id):
     
 
 def gamer_mode(chat_id): 
+    print('----------------')
     print('gamer_mode started')
     root = etree.parse('gamers.xml')
     print('File parsed')
@@ -49,6 +85,7 @@ def gamer_mode(chat_id):
     return gamer_mode.text
 
 def set_gamer_mode(chat_id, mode_text, riddle_id):
+    print('----------------')
     print ('set_gamer_mode started')
     root = etree.parse('gamers.xml')
     print('gamers.xml  parsed')
@@ -64,25 +101,26 @@ def set_gamer_mode(chat_id, mode_text, riddle_id):
     print('riddle_id subelement found')
     riddle_number.text = riddle_id
     print('riddle_id get text: ' + riddle_id)
-    #finaltext = root.getroottree()
-    #print('updated element tree created')
-    #finaltext.write('gamers.xml',pretty_print=True)
     root.write('gamers.xml',pretty_print=True)
     print('updated gamers.xml wrote')
     
  
 def insert_param_to_riddle(riddle_id, param, text):
+    print('----------------')
     root = etree.parse('riddles.xml')
     print('riddles.xml parsed')
     string_to_find = "riddle[@id='" + str(riddle_id) + "']"
+    print ('created string to find: ' + string_to_find)
     riddle = root.find(string_to_find)
+    print('riddle we need is found')
     riddle.find(param).text = text 
-    #finaltext = root.getroottree()
-    #finaltext.write('riddles.xml',pretty_print=True)
+    print('riddle param ' + param + ' get value: ' + text)
     root.write('riddles.xml',pretty_print=True)
+    print('updated riddle.xml is wrote')
 
 
 def riddle_id_is_free(riddle_id):
+    print('----------------')
     root = etree.parse('riddles.xml')
     print('riddles.xml parsed')
     string_to_find = "riddle[@id='" + str(riddle_id) + "']"
@@ -96,6 +134,7 @@ def riddle_id_is_free(riddle_id):
 
 
 def create_first_xml():
+    print('----------------')
     gamers = etree.Element('gamers')
     gamer = etree.SubElement(gamers, 'gamer')
     gamer.set('chat_id','278645740')
@@ -107,6 +146,7 @@ def create_first_xml():
     finaltext.write('gamers.xml',pretty_print=True)
 
 def this_gamer_is_in_xml(this_chat_id): #this function check if gamer already exist in gamers.xml
+    print('----------------')
     root = etree.parse('gamers.xml')
     print('File parsed')
     string_to_find = "gamer[@chat_id='"+str(this_chat_id)+"']"
@@ -123,6 +163,7 @@ def this_gamer_is_in_xml(this_chat_id): #this function check if gamer already ex
         return True
 
 def add_gamer_to_xml(this_chat_id): #function adds elements about new user
+    print('----------------')
     print("add_gamer func started")
     doc = etree.parse('gamers.xml')
     gamers = doc.getroot()
@@ -145,6 +186,7 @@ def add_gamer_to_xml(this_chat_id): #function adds elements about new user
     
 
 def remove_gamer_from_xml(this_chat_id): #function deletes gamer element
+    print('----------------')
     doc = etree.parse('gamers.xml')
     string_to_find = "gamer[@chat_id='"+str(this_chat_id)+"']"
     gamer = doc.find(string_to_find)
@@ -154,6 +196,7 @@ def remove_gamer_from_xml(this_chat_id): #function deletes gamer element
     finaltext.write('gamers.xml',pretty_print=True)
 
 def create_riddles_xml():
+    print('----------------')
     riddles = etree.Element('riddles')
     riddle = etree.SubElement(riddles, 'riddle')
     riddle.set('id', '1')
